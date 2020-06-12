@@ -1,21 +1,9 @@
 import React, { Component } from "react";
-import Test from "./Student";
-export default class StudentList extends Component {
-  state = {
-    students: [],
-    id: 1,
-  };
-  handleSubmit = (obj) => {
-    let aId = this.state.id;
-    obj = { ...obj, id: aId };
-    this.setState({
-      students: [...this.state.students, obj],
-      id: aId + 1,
-    });
-  };
-
+import Student from "./Student";
+import { connect } from "react-redux";
+export class StudentList extends Component {
   render() {
-    const studentList = this.state.students.map((obj) => {
+    const studentList = this.props.students.map((obj) => {
       return (
         <tr>
           <td>{obj.id}</td>
@@ -25,10 +13,9 @@ export default class StudentList extends Component {
         </tr>
       );
     });
-    console.log(this.state.students);
     return (
       <>
-        <Test handleSubmit={(obj) => this.handleSubmit(obj)} />
+        <Student />
         <table>
           <thead>
             <tr>
@@ -44,3 +31,7 @@ export default class StudentList extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  students: state.studentStore.students,
+});
+export default connect(mapStateToProps, null)(StudentList);
